@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ZEXX DOWNLOAD</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="login-page">
+
+<div class="background-glow"></div>
+
+<div class="login-container">
+
+    <div class="logo">
+        <span>ZEXX</span>
+        <small>DOWNLOAD</small>
+    </div>
+
+    <div class="login-card">
+
+        <div class="login-icon">
+            Z
+        </div>
+
+        <h1>Welcome Back</h1>
+
+        <p class="subtitle">
+            Sign in to continue to ZEXX Download
+        </p>
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="input-box">
+
+                <span>👤</span>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    required
+                >
+
+            </div>
+
+            <div class="input-box">
+
+                <span>🔒</span>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                >
+
+            </div>
+
+            <button class="premium-button"
+                    type="submit">
+
+                LOGIN
+
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+        <div class="login-footer">
+            ZEXX DOWNLOAD • PRIVATE ACCESS
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

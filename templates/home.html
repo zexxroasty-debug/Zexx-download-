@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ZEXX DOWNLOAD</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            Z
+        </div>
+
+        <div>
+            <strong>ZEXX</strong>
+            <small>DOWNLOAD</small>
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="/home"
+           class="{% if category == 'All' %}active{% endif %}">
+            Home
+        </a>
+
+        <a href="/home?category=Movies"
+           class="{% if category == 'Movies' %}active{% endif %}">
+            Movies
+        </a>
+
+        <a href="/home?category=Series"
+           class="{% if category == 'Series' %}active{% endif %}">
+            Series
+        </a>
+
+        <a href="/home?category=Anime"
+           class="{% if category == 'Anime' %}active{% endif %}">
+            Anime
+        </a>
+
+    </nav>
+
+
+    <a class="logout"
+       href="/logout">
+        Logout
+    </a>
+
+</header>
+
+
+<main>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="premium-label">
+            ✦ PREMIUM DOWNLOAD EXPERIENCE
+        </div>
+
+        <h1>
+            Your Entertainment.
+            <br>
+            <span>Your Downloads.</span>
+        </h1>
+
+        <p>
+            Discover movies, series and anime
+            available for authorized download.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/home?category=Movies"
+               class="premium-button">
+                EXPLORE MOVIES →
+            </a>
+
+            <a href="/home?category=Anime"
+               class="secondary-button">
+                EXPLORE ANIME
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="content">
+
+    <div class="section-header">
+
+        <div>
+
+            <span class="section-label">
+                ZEXX LIBRARY
+            </span>
+
+            <h2>
+                {% if category == "All" %}
+                    Latest Downloads
+                {% else %}
+                    {{ category }}
+                {% endif %}
+            </h2>
+
+        </div>
+
+
+        <div class="search">
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search titles..."
+                onkeyup="searchMedia()"
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="media-grid" id="mediaGrid">
+
+        {% for item in media %}
+
+        <article class="media-card">
+
+            <div class="poster">
+
+                <img src="{{ item.poster }}"
+                     alt="{{ item.title }}"
+                     loading="lazy">
+
+                <div class="poster-overlay">
+
+                    <a href="{{ item.drive_url }}"
+                       target="_blank"
+                       class="download-button">
+
+                        ⬇ DOWNLOAD
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="media-info">
+
+                <div class="category">
+                    {{ item.category }}
+                </div>
+
+                <h3>
+                    {{ item.title }}
+                </h3>
+
+                <p>
+                    {{ item.description }}
+                </p>
+
+            </div>
+
+        </article>
+
+        {% else %}
+
+        <div class="empty">
+
+            <h3>No content yet</h3>
+
+            <p>
+                Add your authorized downloadable content
+                to the library.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+        ZEXX DOWNLOAD
+    </div>
+
+    <p>
+        © 2026 ZEXX Download
+    </p>
+
+</footer>
+
+
+<script>
+
+function searchMedia() {
+
+    const input =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const cards =
+        document.querySelectorAll(".media-card");
+
+    cards.forEach(card => {
+
+        const title =
+            card.querySelector("h3")
+            .textContent
+            .toLowerCase();
+
+        if (title.includes(input)) {
+
+            card.style.display = "";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>

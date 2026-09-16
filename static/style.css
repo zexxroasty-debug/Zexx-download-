@@ -1,0 +1,494 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07070a;
+    color: white;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* LOGIN */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.background-glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: rgba(120, 50, 255, 0.15);
+    filter: blur(120px);
+    border-radius: 50%;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo span {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 6px;
+}
+
+.logo small {
+    display: block;
+    color: #a9a9b4;
+    letter-spacing: 5px;
+    margin-top: 5px;
+}
+
+.login-card {
+    background: rgba(20, 20, 27, 0.85);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 25px;
+    padding: 35px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.5);
+}
+
+.login-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,#8b5cf6,#5b21b6);
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.login-card h1 {
+    font-size: 30px;
+}
+
+.subtitle {
+    color: #92929d;
+    margin: 8px 0 25px;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #101016;
+    border: 1px solid #262631;
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.input-box input {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 15px;
+}
+
+.premium-button {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 22px;
+    border-radius: 13px;
+    background: linear-gradient(135deg,#9b6cff,#632cff);
+    color: white;
+    font-weight: 800;
+    letter-spacing: .5px;
+    box-shadow: 0 10px 30px rgba(115,50,255,.3);
+    transition: .25s;
+}
+
+.premium-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(115,50,255,.45);
+}
+
+.login-card .premium-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.error {
+    padding: 12px;
+    background: rgba(255,50,80,.1);
+    border: 1px solid rgba(255,50,80,.3);
+    border-radius: 10px;
+    color: #ff7188;
+    margin-bottom: 15px;
+}
+
+.login-footer {
+    text-align: center;
+    color: #666672;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-top: 25px;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    height: 75px;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    background: rgba(7,7,10,.85);
+    backdrop-filter: blur(15px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#9b6cff,#632cff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+}
+
+.brand strong {
+    display: block;
+    letter-spacing: 2px;
+}
+
+.brand small {
+    color: #777782;
+    letter-spacing: 2px;
+    font-size: 8px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #8f8f9b;
+    font-size: 14px;
+}
+
+nav a.active,
+nav a:hover {
+    color: white;
+}
+
+.logout {
+    color: #aaa;
+    font-size: 13px;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    padding: 70px 7%;
+    background:
+        radial-gradient(
+            circle at 70% 40%,
+            rgba(110,60,255,.2),
+            transparent 40%
+        );
+}
+
+.hero-content {
+    max-width: 720px;
+}
+
+.premium-label,
+.section-label {
+    color: #9b6cff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: clamp(42px,7vw,75px);
+    line-height: 1.02;
+    letter-spacing: -3px;
+}
+
+.hero h1 span {
+    color: #9b6cff;
+}
+
+.hero p {
+    color: #9999a5;
+    max-width: 550px;
+    margin: 25px 0;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    padding: 14px 22px;
+    border: 1px solid #292933;
+    border-radius: 13px;
+    color: #ddd;
+    background: #101016;
+}
+
+
+/* CONTENT */
+
+.content {
+    padding: 30px 7% 80px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 30px;
+}
+
+.section-header h2 {
+    font-size: 30px;
+}
+
+.search input {
+    background: #111117;
+    border: 1px solid #282832;
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: white;
+    outline: none;
+}
+
+
+/* CARDS */
+
+.media-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fill, minmax(180px, 1fr));
+    gap: 22px;
+}
+
+.media-card {
+    background: #101015;
+    border: 1px solid #1d1d25;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.media-card:hover {
+    transform: translateY(-6px);
+    border-color: #5f3acb;
+}
+
+.poster {
+    aspect-ratio: 2 / 3;
+    position: relative;
+    overflow: hidden;
+}
+
+.poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .4s;
+}
+
+.media-card:hover .poster img {
+    transform: scale(1.06);
+}
+
+.poster-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        transparent 35%,
+        rgba(0,0,0,.9)
+    );
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: 15px;
+    opacity: 0;
+    transition: .3s;
+}
+
+.media-card:hover .poster-overlay {
+    opacity: 1;
+}
+
+.download-button {
+    width: 100%;
+    text-align: center;
+    padding: 11px;
+    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        #9b6cff,
+        #632cff
+    );
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.media-info {
+    padding: 15px;
+}
+
+.category {
+    color: #8d5dff;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+}
+
+.media-info h3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.media-info p {
+    color: #777783;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: #777;
+}
+
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid #18181f;
+    padding: 30px 7%;
+    color: #55555f;
+    font-size: 12px;
+}
+
+.footer-logo {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+    .navbar {
+        padding: 12px 5%;
+        height: auto;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 5px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .hero {
+        min-height: 420px;
+        padding: 55px 7%;
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .section-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .search input {
+        width: 100%;
+    }
+
+    .media-grid {
+        grid-template-columns:
+            repeat(2, minmax(0,1fr));
+        gap: 12px;
+    }
+
+    .media-info {
+        padding: 11px;
+    }
+
+    .media-info h3 {
+        font-size: 14px;
+    }
+
+    .poster-overlay {
+        opacity: 1;
+    }
+
+}
