@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZEXX Download - Login</title>
+    <title>ZEXX Download - Create Account</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -19,14 +19,8 @@
         </div>
     </div>
 
-    <h1>Welcome Back</h1>
-    <p class="subtitle">Sign in to continue to ZEXX Download</p>
-
-    {% if request.args.get("created") %}
-    <div class="success-message">
-        Account created successfully!
-    </div>
-    {% endif %}
+    <h1>Create Account</h1>
+    <p class="subtitle">Create your ZEXX Download account</p>
 
     {% if error %}
     <div class="error-message">
@@ -43,8 +37,9 @@
                 <input
                     type="text"
                     name="username"
-                    placeholder="Enter your username"
+                    placeholder="Choose a username"
                     autocomplete="username"
+                    minlength="3"
                     required
                 >
             </div>
@@ -55,35 +50,52 @@
             <div class="input-wrap">
                 <span>🔒</span>
                 <input
-                    id="password"
+                    id="newPassword"
                     type="password"
                     name="password"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    minlength="6"
                     required
                 >
                 <button
                     type="button"
                     class="show-btn"
-                    onclick="togglePassword()"
+                    onclick="toggleNewPassword()"
                 >Show</button>
             </div>
         </div>
 
-        <label class="remember">
-            <input type="checkbox" name="remember">
-            <span>Remember me</span>
-        </label>
+        <div class="field">
+            <label>Confirm Password</label>
+            <div class="input-wrap">
+                <span>🔒</span>
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirm"
+                    placeholder="Confirm your password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+                <button
+                    type="button"
+                    class="show-btn"
+                    onclick="toggleConfirmPassword()"
+                >Show</button>
+            </div>
+        </div>
 
         <button class="login-btn" type="submit">
-            LOGIN <span>→</span>
+            CREATE ACCOUNT <span>→</span>
         </button>
 
     </form>
 
     <div class="account-text">
-        Don't have an account?
-        <a href="{{ url_for('register') }}">Create Account</a>
+        Already have an account?
+        <a href="{{ url_for('login') }}">Sign In</a>
     </div>
 
     <div class="footer-text">
@@ -93,9 +105,22 @@
 </div>
 
 <script>
-function togglePassword() {
-    const input = document.getElementById("password");
-    const button = document.querySelector(".show-btn");
+function toggleNewPassword() {
+    const input = document.getElementById("newPassword");
+    const button = event.target;
+
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "Hide";
+    } else {
+        input.type = "password";
+        button.textContent = "Show";
+    }
+}
+
+function toggleConfirmPassword() {
+    const input = document.getElementById("confirmPassword");
+    const button = event.target;
 
     if (input.type === "password") {
         input.type = "text";

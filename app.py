@@ -1,9 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
+import os
 from functools import wraps
+from datetime import timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = "zexx-change-this-secret-key"
+
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "zexx-development-secret-change-this"
+)
+
+app.permanent_session_lifetime = timedelta(days=30)
 
 DATABASE = "zexx.db"
 
@@ -44,7 +53,7 @@ def init_db():
     if user is None:
         conn.execute(
             "INSERT INTO users (username, password) VALUES (?, ?)",
-            ("admin", "zexx123")
+            ("admin", generate_password_hash("zexx123"))
         )
 
     conn.commit()
@@ -65,32 +74,86 @@ def login_required(function):
 def login():
 
     if request.method == "POST":
-
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
+        remember = request.form.get("remember") == "on"
 
         conn = get_db()
 
         user = conn.execute(
-            """
-            SELECT * FROM users
-            WHERE username = ? AND password = ?
-            """,
-            (username, password)
+            "SELECT * FROM users WHERE username = ?",
+            (username,)
         ).fetchone()
 
         conn.close()
 
-        if user:
+        if user and check_password_hash(user["password"], password):
+            session.permanent = remember
             session["user"] = username
+
             return redirect(url_for("home"))
 
         return render_template(
             "login.html",
-            error="Invalid username or password"
+            error="Incorrect username or password."
         )
 
     return render_template("login.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        confirm = request.form.get("confirm", "")
+
+        if len(username) < 3:
+            return render_template(
+                "register.html",
+                error="Username must be at least 3 characters."
+            )
+
+        if len(password) < 6:
+            return render_template(
+                "register.html",
+                error="Password must be at least 6 characters."
+            )
+
+        if password != confirm:
+            return render_template(
+                "register.html",
+                error="Passwords do not match."
+            )
+
+        conn = get_db()
+
+        existing = conn.execute(
+            "SELECT id FROM users WHERE username = ?",
+            (username,)
+        ).fetchone()
+
+        if existing:
+            conn.close()
+
+            return render_template(
+                "register.html",
+                error="That username already exists."
+            )
+
+        conn.execute(
+            "INSERT INTO users (username, password) VALUES (?, ?)",
+            (username, generate_password_hash(password))
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for("login", created="1"))
+
+    return render_template("register.html")
 
 
 @app.route("/home")
@@ -127,7 +190,6 @@ def home():
 
 @app.route("/logout")
 def logout():
-
     session.clear()
     return redirect(url_for("login"))
 
@@ -161,12 +223,12 @@ def add_demo():
     return redirect(url_for("home"))
 
 
+init_db()
+
+
 if __name__ == "__main__":
-
-    init_db()
-
     app.run(
         host="0.0.0.0",
-        port=5000,
+        port=int(os.environ.get("PORT", 5000)),
         debug=True
     )
