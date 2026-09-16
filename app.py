@@ -223,6 +223,44 @@ def add_demo():
     return redirect(url_for("home"))
 
 
+@app.route("/add-can-these-love")
+@login_required
+def add_can_these_love():
+
+    conn = get_db()
+
+    title = "Can These Love Be Threaten - Part 1"
+
+    existing = conn.execute(
+        "SELECT id FROM media WHERE title = ?",
+        (title,)
+    ).fetchone()
+
+    if existing is None:
+        item = (
+            title,
+            "Series",
+            "Can These Love Be Threaten - Part 1.",
+            "/static/posters/can-these-love-part-1.jpg",
+            "https://drive.google.com/uc?export=download&id=1sXVGz3_EpUYWa0ihz7du-atYpG5tl3Rp"
+        )
+
+        conn.execute(
+            """
+            INSERT INTO media
+            (title, category, description, poster, drive_url)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            item
+        )
+
+        conn.commit()
+
+    conn.close()
+
+    return redirect(url_for("home"))
+
+
 init_db()
 
 
