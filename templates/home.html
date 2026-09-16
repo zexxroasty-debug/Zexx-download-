@@ -505,6 +505,173 @@
             }
         }
 
+    
+        .media-card {
+            cursor: pointer;
+        }
+
+        .view-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            color: #05060a;
+            background: white;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+    
+        /* FEEDBACK BUTTON */
+
+        .feedback-button {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 9999;
+
+            border: none;
+            border-radius: 999px;
+
+            padding: 13px 18px;
+
+            background: white;
+            color: #05060a;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 35px rgba(0,0,0,.4);
+
+            transition: .25s;
+        }
+
+        .feedback-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .feedback-modal {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            z-index: 10000;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(0,0,0,.7);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .feedback-box {
+            width: 100%;
+            max-width: 430px;
+
+            padding: 25px;
+
+            background: #101116;
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.6);
+        }
+
+        .feedback-box h2 {
+            margin: 0 0 8px;
+        }
+
+        .feedback-box p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 22px 0;
+        }
+
+        .stars input {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 32px;
+            color: #444;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .stars label:hover,
+        .stars label.active {
+            color: #ffd43b;
+            transform: scale(1.08);
+        }
+
+        .feedback-box textarea {
+            width: 100%;
+            min-height: 110px;
+
+            resize: vertical;
+
+            padding: 13px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid rgba(255,255,255,.12);
+
+            background: #08090d;
+            color: white;
+
+            outline: none;
+
+            font-family: inherit;
+        }
+
+        .feedback-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feedback-submit,
+        .feedback-close {
+            flex: 1;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 10px;
+
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .feedback-submit {
+            background: white;
+            color: #05060a;
+        }
+
+        .feedback-close {
+            background: rgba(255,255,255,.08);
+            color: white;
+        }
+
     </style>
 
 </head>
@@ -637,8 +804,8 @@
 
         {% for item in media %}
 
-        <article class="media-card">
-
+<article class="media-card"
+         onclick="openDetails({{ item.id }})">
             <div class="poster">
 
                 <img src="{{ item.poster }}"
@@ -647,14 +814,11 @@
 
                 <div class="poster-overlay">
 
-                    <a href="{{ item.drive_url }}"
-                       target="_blank"
-                       rel="noopener"
-                       class="download-button">
+                    <span class="view-button">
 
-                        ⬇ DOWNLOAD
+                        VIEW DETAILS →
 
-                    </a>
+                    </span>
 
                 </div>
 
@@ -778,6 +942,179 @@ function searchMedia() {
 }
 
 </script>
+
+
+<script>
+function openDetails(id) {
+    window.location.href = "/details/" + id;
+}
+</script>
+
+
+    
+    <!-- FEEDBACK BUTTON -->
+
+    <button
+        type="button"
+        class="feedback-button"
+        onclick="openFeedback()"
+    >
+        ⭐ Feedback
+    </button>
+
+
+    <!-- FEEDBACK MODAL -->
+
+    <div
+        id="feedbackModal"
+        class="feedback-modal"
+        onclick="closeFeedbackOutside(event)"
+    >
+
+        <div
+            class="feedback-box"
+            onclick="event.stopPropagation()"
+        >
+
+            <h2>Rate ZEXX</h2>
+
+            <p>
+                How was your experience with the website?
+            </p>
+
+
+            <form
+                action="/feedback"
+                method="POST"
+            >
+
+                <div class="stars">
+
+                    <input
+                        type="radio"
+                        id="star1"
+                        name="rating"
+                        value="1"
+                    >
+
+                    <label for="star1">★</label>
+
+
+                    <input
+                        type="radio"
+                        id="star2"
+                        name="rating"
+                        value="2"
+                    >
+
+                    <label for="star2">★</label>
+
+
+                    <input
+                        type="radio"
+                        id="star3"
+                        name="rating"
+                        value="3"
+                    >
+
+                    <label for="star3">★</label>
+
+
+                    <input
+                        type="radio"
+                        id="star4"
+                        name="rating"
+                        value="4"
+                    >
+
+                    <label for="star4">★</label>
+
+
+                    <input
+                        type="radio"
+                        id="star5"
+                        name="rating"
+                        value="5"
+                    >
+
+                    <label for="star5">★</label>
+
+                </div>
+
+
+                <textarea
+                    name="message"
+                    maxlength="1000"
+                    placeholder="Write your feedback..."
+                ></textarea>
+
+
+                <div class="feedback-actions">
+
+                    <button
+                        type="button"
+                        class="feedback-close"
+                        onclick="closeFeedback()"
+                    >
+                        CANCEL
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="feedback-submit"
+                    >
+                        SEND FEEDBACK
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function openFeedback() {
+            document.getElementById("feedbackModal").style.display = "flex";
+        }
+
+        function closeFeedback() {
+            document.getElementById("feedbackModal").style.display = "none";
+        }
+
+        function closeFeedbackOutside(event) {
+            if (event.target.id === "feedbackModal") {
+                closeFeedback();
+            }
+        }
+
+
+        const starLabels =
+            document.querySelectorAll(".stars label");
+
+        starLabels.forEach((label, index) => {
+
+            label.addEventListener("click", function() {
+
+                starLabels.forEach((star, i) => {
+
+                    if (i <= index) {
+                        star.classList.add("active");
+                    } else {
+                        star.classList.remove("active");
+                    }
+
+                });
+
+            });
+
+        });
+
+    </script>
+
 
 </body>
 </html>

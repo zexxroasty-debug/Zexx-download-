@@ -56,6 +56,16 @@ def init_db():
             ("admin", generate_password_hash("zexx123"))
         )
 
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            rating INTEGER NOT NULL,
+            message TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
     conn.commit()
     conn.close()
 
@@ -157,7 +167,6 @@ def register():
 
 
 @app.route("/home")
-@login_required
 def home():
 
     category = request.args.get("category", "All")
@@ -185,6 +194,57 @@ def home():
         media=media,
         category=category,
         username=session["user"]
+    )
+
+
+
+
+@app.route("/details/<int:media_id>")
+def details(media_id):
+
+    conn = get_db()
+
+    item = conn.execute(
+        "SELECT * FROM media WHERE id = ?",
+        (media_id,)
+    ).fetchone()
+
+    if item is None:
+        conn.close()
+        return "Content not found", 404
+
+    related = conn.execute(
+        """
+        SELECT * FROM media
+        WHERE category = ?
+        ORDER BY id ASC
+        """,
+        (item["category"],)
+    ).fetchall()
+
+    conn.close()
+
+    current_index = -1
+
+    for index, media in enumerate(related):
+        if media["id"] == item["id"]:
+            current_index = index
+            break
+
+    previous_item = None
+    next_item = None
+
+    if current_index > 0:
+        previous_item = related[current_index - 1]
+
+    if current_index >= 0 and current_index < len(related) - 1:
+        next_item = related[current_index + 1]
+
+    return render_template(
+        "details.html",
+        item=item,
+        previous_item=previous_item,
+        next_item=next_item
     )
 
 
@@ -259,6 +319,40 @@ def add_can_these_love():
     conn.close()
 
     return redirect(url_for("home"))
+
+
+@app.route("/feedback", methods=["POST"])
+def feedback():
+
+    rating = request.form.get("rating", "0").strip()
+    message = request.form.get("message", "").strip()
+
+    try:
+        rating = int(rating)
+    except ValueError:
+        rating = 0
+
+    if rating < 1 or rating > 5:
+        return redirect(url_for("home"))
+
+    if len(message) > 1000:
+        message = message[:1000]
+
+    conn = get_db()
+
+    conn.execute(
+        """
+        INSERT INTO feedback (rating, message)
+        VALUES (?, ?)
+        """,
+        (rating, message)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("home", feedback="thanks"))
+
 
 
 init_db()
