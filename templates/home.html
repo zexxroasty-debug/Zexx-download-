@@ -808,7 +808,7 @@
          onclick="openDetails({{ item.id }})">
             <div class="poster">
 
-                <img src="{{ item.poster }}"
+                <img src="{{ url_for('static', filename=item.poster) }}"
                      alt="{{ item.title }}"
                      loading="lazy">
 
