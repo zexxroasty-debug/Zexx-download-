@@ -808,9 +808,13 @@
          onclick="openDetails({{ item.id }})">
             <div class="poster">
 
-                <img src="{{ url_for('static', filename=item.poster) }}"
-                     alt="{{ item.title }}"
-                     loading="lazy">
+                {% if item.poster %}
+{% if item.poster.startswith("http") or item.poster.startswith("/") %}
+<img src="{{ item.poster }}" alt="{{ item.title }}" loading="lazy">
+{% else %}
+<img src="{{ url_for("static", filename=item.poster) }}" alt="{{ item.title }}" loading="lazy">
+{% endif %}
+{% endif %}
 
                 <div class="poster-overlay">
 
