@@ -84,33 +84,6 @@ def login_required(function):
 def index():
     return redirect(url_for("home"))
 
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
-        remember = request.form.get("remember") == "on"
-
-        conn = get_db()
-
-        user = conn.execute(
-            "SELECT * FROM users WHERE username = ?",
-            (username,)
-        ).fetchone()
-
-        conn.close()
-
-        if user and check_password_hash(user["password"], password):
-            session.permanent = remember
-            session["user"] = username
-
-            return redirect(url_for("home"))
-
-        return render_template(
-            "login.html",
-            error="Incorrect username or password."
-        )
-
-    return render_template("login.html")
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
