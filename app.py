@@ -80,8 +80,9 @@ def login_required(function):
     return wrapper
 
 
-@app.route("/", methods=["GET", "POST"])
-def login():
+@app.route("/")
+def index():
+    return redirect(url_for("home"))
 
     if request.method == "POST":
         username = request.form.get("username", "").strip()
