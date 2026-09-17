@@ -167,7 +167,7 @@ def home():
         "home.html",
         media=media,
         category=category,
-        username=session["user"]
+        username=session.get("user", "Guest")
     )
 
 
